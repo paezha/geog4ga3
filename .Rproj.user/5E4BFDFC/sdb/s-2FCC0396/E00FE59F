@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' geog4ga3.\n#'\n#' @name geog4ga3\n#' @docType package\n#' @import dplyr broom spdep plotly\nNULL\n\n#' Snow cholera deaths\n#'\n#' A dataset containing the location and number of cholera deaths.\n#'  The variables are as follows:\n#'\n#' \\itemize{\n#'   \\item long. longitude of address (\\-0.1401--\\-0.1329)\n#'   \\item lat. latitude of address (51.51--51.52)\n#'   \\item Id. Unique identifier of address\n#'   \\item Count. Number of deaths recorded at address (1--15)\n#' }\n#'\n#' @docType data\n#' @keywords datasets\n#' @name snow_deaths\n#' @usage data(snow_deaths)\n#' @format A data frame with 250 rows and 5 variables\n#' @source \\url{http://blog.rtwilson.com/?s=snow}\nNULL\n\n#' Snow cholera pumps\n#'\n#' A dataset containing the location of pumps if Soho.\n#'  The variables are as follows:\n#'\n#' \\itemize{\n#'   \\item long. longitude of address (\\-0.1401--\\-0.1329)\n#'   \\item lat. latitude of address (51.51--51.52)\n#'   \\item Id. Unique identifier of address\n#'   \\item Count. Number of pumps at location\n#' }\n#'\n#' @docType data\n#' @keywords datasets\n#' @name snow_pumps\n#' @usage data(snow_pumps)\n#' @format A data frame with 5 rows and 4 variables\n#' @source \\url{http://blog.rtwilson.com/?s=snow}\nNULL\n",
+    "created" : 1540484810554.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4276177195",
+    "id" : "E00FE59F",
+    "lastKnownWriteTime" : 1540487108,
+    "last_content_update" : 1540487108255,
+    "path" : "C:/Antonio/Courses/GEOG 4GA3 - Applied Spatial Analysis/Spatial-Statistics-Course/geog4ga3/R/geog4ga3.R",
+    "project_path" : "R/geog4ga3.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

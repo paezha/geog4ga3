@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1544568097094.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1900478954",
+    "id" : "6C2E5A2",
+    "lastKnownWriteTime" : 1544743444,
+    "last_content_update" : 1544743444,
+    "path" : "C:/Antonio/Courses/GEOG 4GA3 - Applied Spatial Analysis/Spatial-Statistics-Course/geog4ga3/NAMESPACE",
+    "project_path" : "NAMESPACE",
+    "properties" : {
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_namespace"
+}

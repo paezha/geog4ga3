@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1543938271638.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1073605072",
+    "id" : "EA3D5AF2",
+    "lastKnownWriteTime" : 1550590620,
+    "last_content_update" : 1550590620431,
+    "path" : "C:/Antonio/Courses/GEOG 4GA3 - Applied Spatial Analysis/Spatial-Statistics-Course/geog4ga3/R/localmoran.map.R",
+    "project_path" : "R/localmoran.map.R",
+    "properties" : {
+        "cursorPosition" : "3,10",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

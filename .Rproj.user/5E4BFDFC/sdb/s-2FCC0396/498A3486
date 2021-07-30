@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#' A funcion for creating an interactive map of local Moran's I statistics\n#'\n#' This function obtains the m-surroundings by selecting the m-1 nearest neighbors of each observation, allowing for a degree of overlap of s.\n#' @param spat_pol, listw, VAR, ID\n#' @keywords autocorrelation\n#' @export\n#' @examples\n#' # Create a map of local Moran's I statistics for population density\n#' localmoran.map(Hamilton_CT, Hamilton_CT.w, Hamilton_CT$POP_DENSIT, Hamilton_CT$TRACT)\n\nlocalmoran.map <- function(spat_pol = spat_pol, listw = listw, VAR = VAR, ID = ID){\n  #require(tidyverse)\n  #require(broom)\n  #require(spdep)\n  #require(plotly)\n\n  spat_pol@data <- data.frame(ID = ID, VAR = VAR)\n  spat_pol.t <- broom::tidy(spat_pol, region = \"ID\")\n  spat_pol.t <- dplyr::rename(spat_pol.t, ID = id)\n  spat_pol.t <- dplyr::left_join(spat_pol.t, spat_pol@data, by = \"ID\")\n\n  df_msc <- transmute(spat_pol@data,\n                      ID = ID,\n                      Z = (VAR-mean(VAR)) / var(VAR),\n                      SMA = lag.listw(listw, Z),\n                      Type = factor(ifelse(Z < 0 & SMA < 0, \"LL\",\n                                           ifelse(Z > 0 & SMA > 0, \"HH\", \"HL/LH\"))))\n\n  local_I <- localmoran(spat_pol$VAR, listw)\n\n  spat_pol.t <- left_join(spat_pol.t,\n                          data.frame(ID = spat_pol$ID, local_I))\n  spat_pol.t <- rename(spat_pol.t, p.val = Pr.z...0.)\n  spat_pol.t <- left_join(spat_pol.t,\n                          df_msc)\n\n  map <- ggplot(data = spat_pol.t,\n                aes(x = long, y = lat, group = group,\n                    p.val = p.val, VAR = round(VAR))) +\n    geom_polygon(aes(fill = Type, color = p.val < 0.05)) +\n    scale_fill_brewer(palette = \"RdBu\") +\n    scale_color_manual(values = c(NA, \"Black\") ) +\n    labs(color = \"Prob < 0.05\") +\n    coord_equal() +\n    theme(legend.title = element_blank())\n  ggplotly(map, tooltip = c(\"p.val\", \"VAR\"))\n}\n",
+    "created" : 1539877414223.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3839495115",
+    "id" : "498A3486",
+    "lastKnownWriteTime" : 1540483270,
+    "last_content_update" : 1540483270369,
+    "path" : "C:/Antonio/Courses/GEOG 4GA3 - Applied Spatial Analysis/Spatial-Statistics-Course/geog4ga3/R/localmoran.map.R",
+    "project_path" : "R/localmoran.map.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

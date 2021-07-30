@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# Maps as processes\n# Data preprocessing of John Snow's cholera deaths map\n# Data sourced from: http://blog.rtwilson.com/?s=snow\n\n#Clear workspace\nrm(list = ls())\n\n# ## Download the zip archive of geographical information\n# download.file(url      = \"http://www.rtwilson.com/downloads/SnowGIS_v2.zip\",\n#               destfile = \"SnowGIS_v2.zip\")\n# \n# ## Unzip\n# unzip(zipfile = \"SnowGIS_v2.zip\")\n# \n# ## List files in the unzipped folder\n# dir(path = \"./SnowGIS\")\n\n#Load libraries\nlibrary(tidyverse)\n#library(plyr)\nlibrary(rgdal)\nlibrary(maptools)\nlibrary(splitstackshape)\nlibrary(ggmap)\n\n# Get basemap\nlondon_main <- get_map(c(-.137,51.513), zoom = 16, source = \"stamen\", maptype = \"watercolor\")\n# london_main <- get_map(c(-.137,51.513), zoom = 17, color = \"bw\")\nLondonMap <- ggmap(london_main, extent = \"device\", legend = \"topleft\")\n\n# Read geographical information\ndeaths <- readShapePoints(\"Cholera_Deaths\")\npumps <- readShapePoints(\"Pumps\")\n\ndf_deaths <- data.frame(deaths@coords)\ndf_deaths <- cbind(df_deaths,deaths@data)\ndf_deaths$Id <- c(1:250)\ndf_pumps <- data.frame(pumps@coords)\ndf_pumps$Id <- c(251:258)\ndf_pumps$Count <- 1\n\ndata <- rbind(df_deaths, df_pumps)\ndata$type <- as.factor(c(rep('death', times=dim(df_deaths)[1]),\n              rep('pump', times=dim(df_pumps)[1])))\n\ncoordinates(data)=~coords.x1+coords.x2\nproj4string(data)=CRS(\"+init=epsg:27700\")\ndata <- spTransform(data, CRS(\"+proj=longlat +datum=WGS84\"))\ndata <- data.frame(data@coords, Id = data@data$Id, Count =data@data$Count, type=data@data$type)\n\ndata <- dplyr::rename(data, long = coords.x1)\ndata <- dplyr::rename(data, lat = coords.x2)\n# colnames(data)[colnames(data)==\"coords.x1\"] <- \"long\"\n# colnames(data)[colnames(data)==\"coords.x2\"] <- \"lat\"\n\nggmap(london_main, extent = \"panel\") +\n  geom_point(data = data, aes(x = long, y = lat, color = type, size = Count * 20), color = \"red\")\n\n# Subset by death cases\ndf_deaths <- subset(data, type == \"death\")\n# Data was originally aggregated by address. Expand by number of cases, so that each case is one row\ndf_deaths_expanded <- expandRows(df_deaths, \"Count\")\n# Subset by pumps\ndf_pumps <- subset(data, type == \"pump\")\n\n\nggmap(london_main, extent = \"panel\") + \n  geom_point(data = df_deaths, aes(x = long, y = lat, size = Count * 20), color = \"red\") +\n  geom_point(data = df_pumps, aes(x = long, y = lat), color = \"black\", size = 5)\n\nggmap(london_main, extent = \"panel\") + \n  geom_point(data = df_pumps, aes(x = long, y = lat, color = type), size = 5) +\n  scale_color_brewer(palette = \"RdGy\", direction = -1)\n  \n\n\nggmap(london_main) +\n  stat_density2d(data = df_deaths_expanded,\n    aes(x = long, y = lat, fill = ..level.., alpha = ..level..),\n    size = 20, bins = 10,\n    geom = \"polygon\") +\n  scale_fill_gradient(low = \"white\", high = \"blue\") +\n  scale_alpha(range = c(0.5, 0.75), guide = FALSE) +\n  geom_point(data = df_deaths, \n             aes(x = long, y = lat, size = Count, shape = type), color = \"blue\", alpha = 0.5) +\n  geom_point(data = df_pumps, \n             aes(x = long, y = lat, shape = type), color = \"black\", size = 5)\n",
+    "created" : 1540487060425.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2299388770",
+    "id" : "EB79D84F",
+    "lastKnownWriteTime" : 1515510079,
+    "last_content_update" : 1515510079,
+    "path" : "C:/Antonio/Courses/GEOG 4GA3 - Applied Spatial Analysis/Spatial-Statistics-Course/02. Statistical Maps I/01. Readings and Practice/Snow Cholera/Data Preprocessing.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

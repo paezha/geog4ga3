@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1543938238304.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3850052804",
+    "id" : "55A15003",
+    "lastKnownWriteTime" : 1543938390,
+    "last_content_update" : 1543938390188,
+    "path" : "C:/Antonio/Courses/GEOG 4GA3 - Applied Spatial Analysis/Spatial-Statistics-Course/geog4ga3/R/kpointmean.R",
+    "project_path" : "R/kpointmean.R",
+    "properties" : {
+        "cursorPosition" : "6,53",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
