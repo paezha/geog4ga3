@@ -2,18 +2,18 @@
 % Please edit documentation in R/localmoran.map.R
 \name{localmoran.map}
 \alias{localmoran.map}
-\title{A funcion for creating an interactive map of local Moran's I statistics}
+\title{A function for creating an interactive map of local Moran's I statistics}
 \usage{
-localmoran.map(p = p, listw = listw, VAR = VAR, by = by)
+localmoran.map(p, listw, VAR, by)
 }
 \arguments{
 \item{p}{A simple features `sf` object}
 
 \item{listw}{A listw object (see spdep)}
 
-\item{VAR}{The name of a variable}
+\item{VAR}{A character string with the name of a variable}
 
-\item{by}{The name of a key to join the local Moran's I statistics to the `sf` object}
+\item{by}{A character string with the name of a key to join the local Moran's I statistics to the `sf` object}
 }
 \description{
 This function plots a map with the results of local Moran's I statistics, based on spatial polygons, a `listw` object, and a variable with an ID.

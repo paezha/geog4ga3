@@ -1,10 +1,10 @@
-#' A funcion for creating an interactive map of local Moran's I statistics
+#' A function for creating an interactive map of local Moran's I statistics
 #'
 #' This function plots a map with the results of local Moran's I statistics, based on spatial polygons, a `listw` object, and a variable with an ID.
 #' @param p A simple features `sf` object
 #' @param listw A listw object (see spdep)
-#' @param VAR The name of a variable
-#' @param by The name of a key to join the local Moran's I statistics to the `sf` object
+#' @param VAR A character string with the name of a variable
+#' @param by A character string with the name of a key to join the local Moran's I statistics to the `sf` object
 #' @keywords spatial
 #' @export
 #' @import dplyr
@@ -18,26 +18,37 @@
 #'
 #' localmoran.map(Hamilton_CT, Hamilton_CT.w, "POP_DENSITY", "TRACT")
 
-localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
+localmoran.map <- function(p, listw, VAR, by){
   #require(tidyverse)
   #require(spdep)
   #require(plotly)
 
-  Z <- SMA <- Pr.z...0. <- NULL
+  df_msc <- p %>%
+    rename(VAR = as.name(VAR),
+           key = as.name(by)) %>%
+    transmute(key,
+              VAR,
+              Z = (VAR - mean(VAR)) / var(VAR),
+              SMA = lag.listw(listw, Z),
+              Type = case_when(Z < 0 & SMA < 0 ~ "LL",
+                               Z > 0 & SMA > 0 ~ "HH",
+                               TRUE ~ "HL/LH"))
 
-  df_msc <- transmute(p,
-                      key = p[[by]],
-                      Z = (p[[VAR]] - mean(p[[VAR]])) / var(p[[VAR]]),
-                      SMA = lag.listw(listw, Z),
-                      Type = factor(ifelse(Z < 0 & SMA < 0, "LL",
-                                           ifelse(Z > 0 & SMA > 0, "HH", "HL/LH"))))
+  local_I <- localmoran(df_msc$VAR, listw)
 
-  local_I <- localmoran(p[[VAR]], listw)
+  colnames(local_I) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "p.val")
 
-  df_msc <- dplyr::left_join(df_msc,
-                      data.frame(key = p[[by]], local_I))
-  df_msc <- rename(df_msc, p.val = Pr.z...0.)
+  df_msc <- left_join(df_msc,
+                      data.frame(key = df_msc$key,
+                                 local_I),
+                      by = "key")
 
   plot_ly(df_msc) %>%
-    add_sf(split = ~(p.val < 0.05), color = ~Type, colors = c("red", "khaki1", "dodgerblue", "dodgerblue4"))
+    add_sf(type = "scatter",
+           split = ~(p.val < 0.05),
+           color = ~Type,
+           colors = c("red",
+                      "khaki1",
+                      "dodgerblue",
+                      "dodgerblue4"))
 }
