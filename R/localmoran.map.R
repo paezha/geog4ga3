@@ -19,10 +19,6 @@
 #' localmoran.map(Hamilton_CT, Hamilton_CT.w, "POP_DENSITY", "TRACT")
 
 localmoran.map <- function(p, listw, VAR, by){
-  #require(tidyverse)
-  #require(spdep)
-  #require(plotly)
-
   df_msc <- p %>%
     rename(VAR = as.name(VAR),
            key = as.name(by)) %>%
